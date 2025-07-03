@@ -1,82 +1,69 @@
-<?php 
+<div class="container-fluid py-3 p-lg-4">
+        
+    <div class="row">
+      
+       <!--==============================
+          Breadcrumb
+         ================================-->
 
-/*=============================================
-Límites
-=============================================*/
+          <div class="col-12 mb-3 position-relative">
 
-$limitContact = 10;
-$limitMessage = 15;
-$lastIdMessage = 0;
+            <div class="d-lg-flex justify-content-lg-between mt-2">
 
-/*=============================================
-Traemos los contactos
-=============================================*/
+              <div class="text-capitalize h5 ps-2">Personalizable</div>
 
-$url = "contacts?orderBy=date_updated_contact&orderMode=DESC&startAt=0&endAt=".$limitContact;
-$method = "GET";
-$fields = array();
+              <div class="pe-0">
+                <ul class="nav justify-content-lg-end">
+                  <li class="nav-item">
+                    <a class="nav-link py-0 px-0 text-dark" href="/">Inicio</a>
+                  </li>
+                  <li class="nav-item ps-3">/</li>
+                  <li class="nav-item">
+                    <a class="nav-link py-0 disabled text-capitalize" href="#">Personalizable</a>
+                  </li> 
+                </ul>
+              </div>
 
-$getContacts = CurlController::request($url,$method,$fields);
+            </div>
 
-if($getContacts->status == 200){
+          </div>
 
-  $contacts = $getContacts->results;
+          <!--==============================
+          Módulos
+         ================================-->
 
-  /*=============================================
-  Traemos la conversación de acuerdo al link del contacto
-  =============================================*/
+         <div class="col-12 col-lg-6 mb-3">
 
-  if(isset($_GET["phone"])){
+            <div class="card rounded">
+              <div class="card-body">
+                <div class="jumbotron">
+                  <h1 class="display-4">Hello, world!</h1>
+                  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                  <hr class="my-4">
+                  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                  <a class="btn btn-primary btn-sm rounded" href="#" role="button">Learn more</a>
+                </div>
+              </div>
+            </div>
 
-    $url = "messages?linkTo=phone_message&equalTo=".explode("_",$_GET["phone"])[0]."&orderBy=id_message&orderMode=DESC&startAt=0&endAt=".$limitMessage;
-  
-  /*=============================================
-  Traemos la conversación más reciente
-  =============================================*/
+         </div>
 
-  }else{
+          <div class="col-12 col-lg-6 mb-3">
 
-    $url = "messages?linkTo=phone_message&equalTo=".$contacts[0]->phone_contact."&orderBy=id_message&orderMode=DESC&startAt=0&endAt=".$limitMessage;
-  }
- 
-  $getMessages = CurlController::request($url,$method,$fields);
- 
-  if($getMessages->status == 200){
+            <div class="card rounded">
+              <div class="card-body">
+                <div class="jumbotron">
+                  <h1 class="display-4">Hello, world!</h1>
+                  <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                  <hr class="my-4">
+                  <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                  <a class="btn btn-primary btn-sm rounded" href="#" role="button">Learn more</a>
+                </div>
+              </div>
+            </div>
 
-    $messages = $getMessages->results;
-    $lastIdMessage = $messages[0]->id_message;
+          </div>
 
-  
-  }else{
-
-    $messages = array();
-
-  }
- 
-}else{
-
-  $contacts = array();
-
-}
-
-?>
-
-<div class="container-fluid p-0">
-
-  <audio id="chatSound" src="/views/assets/files/68143a7deacde37.mp3" preload="auto"></audio>
-  <audio id="messageSound" src="/views/assets/files/68143bbc3cafe56.mp3" preload="auto"></audio>
-
-  <div class="main-container">
-
-    <?php 
-
-      include "modules/chat-container/chat-container.php";
-      include "modules/contact-list/contact-list.php";
-
-    ?>
+    </div>
 
   </div>
-
-</div>
-
-<script src="/views/assets/js/chat/chat.js"></script>

@@ -20,21 +20,27 @@ Class BotsController{
 
       		if($getBot->type_bot == "text"){
 
-      			$json = '{
-				  "messaging_product": "whatsapp",
-				  "recipient_type": "individual",
-				  "to": "'.$phone_message.'",
-				  "type": "text",
-				  "text": {
-				    "preview_url": true,
-				    "body": "'.$getBot->body_text_bot.'"
-				  }
-				}';
+				$body = $getBot->body_text_bot;
+
+				$json = [
+					"messaging_product" => "whatsapp",
+					"recipient_type" => "individual",
+					"to" => $phone_message,
+					"type" => "text",
+					"text" => [
+						"preview_url" => true,
+						"body" => $body
+					]
+				];
+
+				$jsonFields = json_encode($json, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
 
 				$business_message = $getBot->body_text_bot;
 				$template_message = '{"type":"bot","title":"'.$bot.'"}';
       		
       		}
+
       	
       	}
 
@@ -76,7 +82,7 @@ Class BotsController{
       		Enviamos datos JSON a la API de WhatsApp
       		=============================================*/
 
-      		$apiWS = CurlController::apiWS($getApiWS,$json);
+      		$apiWS = CurlController::apiWS($getApiWS,$jsonFields);
       		echo '<pre>$apiWS '; print_r($apiWS); echo '</pre>';
 		
 		}
